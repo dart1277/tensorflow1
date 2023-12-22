@@ -18,6 +18,8 @@ matplotlib.use('QtAgg') #  MacOSX, QtAgg, GTK4Agg, Gtk3Agg, TkAgg, WxAgg
 
 from pathlib import Path
 
+from functional_api import build_model_fun
+
 
 def build_single_layer_model(x_train):
     model = tf.keras.Sequential()
@@ -125,6 +127,7 @@ def test1():
     x_train, x_test, y_train, y_test = train_test_split(processed_features, target, test_size=0.2, random_state=1)
     print((x_train.shape, y_train.shape, x_test.shape, y_test.shape, ))
     model = build_single_layer_model(x_train)
+    # model = build_model_fun(x_train)
     print(model.summary())
     tf.keras.utils.plot_model(model, show_shapes=True) # used pydot and graphviz libs, prints to model.png file
 

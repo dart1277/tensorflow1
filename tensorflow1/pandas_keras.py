@@ -120,6 +120,37 @@ def test1():
 
     processed_features = pd.concat([num_features, category_features.astype("float32")], axis=1, sort=False)
 
+    # when concatenating on axis=0 make index start at 0 and monotonically increase
+    # processed_features.reset_index(drop=True, inplace=True)
+
+    # data["some_date_column"] = pd.to_datetime(data["some_date_column"])
+
+    # data["some categorical var column"].map({"cat1":!, "cat2":2}) # map column labels to categories, then can use one hot encoding
+    # for ex. target = tf.keras.utils.to_categorical(target, 3)
+    # or
+    # from sklearn.preprocessing import LabelEncoder
+    # le = LabelEncoder()
+    # data["country"] = le.fit_transform(data["country"])
+    # one hot encoding
+    # cat_data = pd.get_dummies(data=data, columns=["col1", "col2"])
+    # drop categorical data
+    # num_data = data.drop(columns=cat_data.columns, axis=1)
+
+    # find correlation matrix
+    # thresh = 0.85
+    # c_mat = final_df.corr().abs()
+    # upper_triangle_corr_matrix = c_mat.where(np.triu(np.ones(c_mat.shape), k=1).astype(bool))
+    #
+    # drop highly correlated columns
+    # to_drop = []
+    # for i in range(len(corr_matrix.columns)):
+    #     for j in range(i):
+    #         if abs(corr_matrix.iloc[i,j]) >= thresh
+    #             colname = corr_matrix.columns[i]
+    #             to_drop.append(colname)
+    # final_df.drop(columns=to_drop, inplace=True)
+    # final_df["agent"] = final_df["agent"].fillna(0)
+
     print(processed_features.shape)
 
     pd.reset_option('display.max_columns')

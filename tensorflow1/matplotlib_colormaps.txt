@@ -1,0 +1,38 @@
+Sequential Colormaps:
+
+viridis
+plasma
+inferno
+magma
+cividis
+Diverging Colormaps:
+
+PiYG (Pink to Yellow-Green)
+PRGn (Purple to Green)
+BrBG (Brown to Blue-Green)
+RdYlBu (Red to Yellow-Blue)
+RdYlGn (Red to Yellow-Green)
+Spectral
+Cyclic Colormaps:
+
+twilight
+twilight_shifted
+hsv
+Qualitative Colormaps:
+
+Pastel1
+Pastel2
+Dark2
+Set1
+Set2
+Set3
+tab10
+tab20
+tab20b
+tab20c
+Miscellaneous Colormaps:
+
+jet (often discouraged due to perceptual issues)
+nipy_spectral
+flag
+terrain

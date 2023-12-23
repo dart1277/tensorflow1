@@ -1,3 +1,4 @@
+import json
 import os, datetime
 import numpy as np
 import pandas as pd
@@ -20,11 +21,16 @@ from pathlib import Path
 
 from functional_api import build_model_fun
 
+# import tensorflow_docs as tfdocs
+# import tensorflow_docs.modeling
+# import tensorflow_docs.plots
+
 
 def build_single_layer_model(x_train):
     model = tf.keras.Sequential()
     model.add(tf.keras.layers.Dense(32, input_shape=(x_train.shape[1],),activation="relu")) # activation="sigmoid"
-    model.add(tf.keras.layers.Dense(16,activation="relu")) # activation="sigmoid", "elu" - mitigates issue of saturating neuron
+    model.add(tf.keras.layers.Dropout(rate=0.1)) # avoids overfitting
+    model.add(tf.keras.layers.Dense(16,activation="relu")) # activation="sigmoid", "elu" - mitigates issue of saturating neuron, converges faster
     model.add(tf.keras.layers.Dense(16,activation="relu")) # activation="sigmoid"
     model.add(tf.keras.layers.Dense(16,activation="relu")) # activation="sigmoid"
     model.add(tf.keras.layers.Dense(16,activation="relu")) # activation="sigmoid"
@@ -165,10 +171,19 @@ def test1():
     logdir = os.path.join("seq_logs", datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
     tensorboard_callback = keras.callbacks.TensorBoard(logdir, histogram_freq=1)
 
-    num_epochs = 100
-    training_history = model.fit(x_train, y_train, epochs=num_epochs, validation_split=0.2,
+    num_epochs = 1000
+    training_history = model.fit(x_train, y_train, epochs=num_epochs,
+                                 validation_split=0.2, # if using numpy arrays
                                  batch_size=100, # default 32, don't use with generators
-                                 verbose=True, callbacks=[tensorboard_callback])
+                                 verbose=True, callbacks=[tensorboard_callback,
+                                                          # tfdocs.modeling.EpochDots()
+                                                          tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5) # stop early if no progress is made for 5 epochs
+                                                          ])
+
+    # plotter = tfdocs.plots.HistoryPlotter(smoothing_std=2)
+    # plt.figure(figsize=(16,8))
+    # plotter.plot({'Basic': training_history}, metric="mae")
+    # plt.show()
 
     # use callback output,
     # in jupyter:
@@ -200,7 +215,7 @@ def test1():
     model.evaluate(x_test, y_test)
     y_pred = model.predict(x_test)
     print("r2")
-    r2= r2_score(y_test, y_pred) # higher is better
+    r2= r2_score(y_test, y_pred) # higher is better, used for regression models
     print(r2)
 
     pred_res = pd.DataFrame({
@@ -226,6 +241,8 @@ def test1():
     # - model.save
     # - tf.keras.models.save_model
     # - tf.keras.models.load_model
+    model.save('./my_models/relu_1/model_all')
+    # model = tf.keras.models.load_model('./my_models/relu_1/model_all')
 
 
     # saving model architecture
@@ -234,6 +251,11 @@ def test1():
     # tf.keras.models.model_from_json
     # custom objects/layers must override get_config and from_config
     # custom functions need not override get_config
+    print(json.dumps(json.loads(model.to_json()), indent=2))
+    # with open('./my_models/reulu.json') as infile:
+    #     model_json = json.load(infile)
+    #     model = tf.keras.models.model_from_json(json.dumps(model_json))
+    #     model.summary()
 
     # checkpointing (saving weights)
     # formats
@@ -242,6 +264,11 @@ def test1():
     # apis (only works with non-custom models)
     # tf.keras.layers.Layer.get_weights
     # tf.keras.layers.Layer.set_weights
+    model.save_weights('./my_models/relu_1',
+                       #save_format='h5' # can be used with different backends
+                       )
+
+    # model.load_weights('./my_models/relu_1')
 
     ...
 

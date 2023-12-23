@@ -217,6 +217,31 @@ def test1():
     plt.ylabel('Predicted life expectancy')
     plt.show()
 
+    # Keras has 2 file formats
+    # TF SavedModel (recommended)
+    # h5 - external losses and metrics are not saved
+    # - computation graph of custom objects not saved
+
+    # saving whole model
+    # - model.save
+    # - tf.keras.models.save_model
+    # - tf.keras.models.load_model
+
+
+    # saving model architecture
+    # - get_config / from_config
+    # tf.keras.models.model_to_json
+    # tf.keras.models.model_from_json
+    # custom objects/layers must override get_config and from_config
+    # custom functions need not override get_config
+
+    # checkpointing (saving weights)
+    # formats
+    # - tensorflow checkpoint
+    # - HDF5
+    # apis (only works with non-custom models)
+    # tf.keras.layers.Layer.get_weights
+    # tf.keras.layers.Layer.set_weights
 
     ...
 

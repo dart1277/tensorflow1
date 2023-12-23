@@ -174,12 +174,21 @@ def test1():
     logdir = os.path.join("seq_logs", datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
     tensorboard_callback = keras.callbacks.TensorBoard(logdir, histogram_freq=1)
 
+    # checkpoiting using callbacks
+    ckpt_path = './my_models/chk1/checkpoint'
+    ckpt_callback = tf.keras.callbacks.ModelCheckpoint(filepath=ckpt_path,
+                                                       save_weights_only=True,
+                                                       save_freq="epoch", # or #batches, see docs
+                                                       verbose=False
+                                                       )
+
     num_epochs = 1000
     training_history = model.fit(x_train, y_train, epochs=num_epochs,
                                  validation_split=0.2, # if using numpy arrays
                                  batch_size=100, # default 32, don't use with generators
                                  verbose=True, callbacks=[tensorboard_callback,
                                                           # tfdocs.modeling.EpochDots()
+                                                          ckpt_callback,
                                                           tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5) # stop early if no progress is made for 5 epochs
                                                           ])
 

@@ -55,11 +55,13 @@ def build_model_fun(x_train):
 
     print(model.summary())
 
-    model.compile(optimizer=tf.keras.optimizers.Adam(0.001),
+    model.compile(optimizer=tf.keras.optimizers.Adam(0.001), # RMSprop can be used as well
                   loss=tf.keras.losses.BinaryCrossentropy(), # since the model is a binary classifier
                   metrics=['accuracy',
-                           tf.keras.metrics.Precision(0.5),
-                           tf.keras.metrics.Recall(0.5),
+                           # idempotent operation that simply divides true_positives by the sum of true_positives and false_positives.
+                           tf.keras.metrics.Precision(0.5), # how many positive identifications of the model have been correctly rpedicted
+                           # idempotent operation that simply divides true_positives by the sum of true_positives and false_negatives.
+                           tf.keras.metrics.Recall(0.5), # how many positives in dataset were correctly indetified by the model
                            ]
                   )
 

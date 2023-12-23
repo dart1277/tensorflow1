@@ -25,6 +25,9 @@ from functional_api import build_model_fun
 # import tensorflow_docs.modeling
 # import tensorflow_docs.plots
 
+# destroys current graph and session and creates a brand new one
+tf.keras.backend.clear_session() # mandatory if building multiple models with the same python kernel
+
 
 def build_single_layer_model(x_train):
     model = tf.keras.Sequential()

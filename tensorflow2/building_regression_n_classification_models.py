@@ -39,7 +39,7 @@ def test_data_prep1():
     features = data.drop('charges', axis=1)
     target = data[['charges']]
     categorical_features = features[['sex', 'smoker', 'region']].copy()
-    categorical_features['sex'].replace({'female':0, 'male':1}, inplace=True)
+    categorical_features['sex'].replace({'female':0, 'male':1}, inplace=True) # use for label encoding
     numeric_features = features.drop(['sex', 'smoker', 'region'], axis=1)
     categorical_features['smoker'].replace({'no':0, 'yes':1}, inplace=True)
     categorical_features = pd.get_dummies(categorical_features, columns=['region']).astype('int32')

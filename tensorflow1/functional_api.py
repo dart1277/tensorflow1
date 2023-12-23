@@ -108,6 +108,8 @@ def test1():
 
     print((x_train.shape, y_train.shape, x_test.shape, y_test.shape,))
 
+    # use Dataset to take advantage of tf parallel processing
+    # in production Dataset MUST be used instead of plain numpy arrays
     dataset_train = tf.data.Dataset.from_tensor_slices((x_train.values, y_train.values))
     dataset_train = dataset_train.batch(16)
     dataset_train.shuffle(128)

@@ -86,7 +86,7 @@ def test1():
     # https://www.kaggle.com/code/ektasharma/simple-cifar10-cnn-keras-code-with-88-accuracy
     num_classes=10
 
-    (train_images, train_labels), (test_images, test_labels) = cifar10.load_data()
+    (train_images, train_labels), (test_images, test_labels_raw) = cifar10.load_data()
     class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer',
                    'dog', 'frog', 'horse', 'ship', 'truck']
 
@@ -101,7 +101,7 @@ def test1():
     # One hot encoding the target class (labels)
     num_classes = 10
     train_labels = np_utils.to_categorical(train_labels, num_classes)
-    test_labels = np_utils.to_categorical(test_labels, num_classes)
+    test_labels = np_utils.to_categorical(test_labels_raw, num_classes)
 
     # Creating a sequential model and adding layers to it
 
@@ -139,7 +139,7 @@ def test1():
 
     model.compile(optimizer='adam', loss=keras.losses.categorical_crossentropy, metrics=['accuracy'])
 
-    history = model.fit(train_images, train_labels, batch_size=64, epochs=1,
+    history = model.fit(train_images, train_labels, batch_size=64, epochs=2,
                         validation_data=(test_images, test_labels))
 
     #(X_train, Y_train), (X_test, Y_test) = cifar10.load_data()
@@ -242,8 +242,8 @@ def test1():
 
     p_test = model.predict(test_images).argmax(axis=1)
     print(p_test)
-    # cm = confusion_matrix(test_labels, p_test)
-    # print(cm)
+    cm = confusion_matrix(test_labels_raw, p_test)
+    print(cm)
     # plot_confusion_matrix(cm, list(range(10)))
     ...
 

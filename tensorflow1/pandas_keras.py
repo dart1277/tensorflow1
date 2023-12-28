@@ -54,6 +54,8 @@ def test1():
     #print(data.head())
     #print(data.sample(5))
     #print(data.isna().sum()) # null or missing cnt
+    data.replace('.', np.nan, inplace=True) # replace specific missing value labels with nan
+
     countries = data['Country'].unique()
     na_columns = data.isna().columns
     for col in na_columns:

@@ -146,6 +146,7 @@ def test1():
     # cat_data = pd.get_dummies(data=data, columns=["col1", "col2"])
     # drop categorical data
     # num_data = data.drop(columns=cat_data.columns, axis=1)
+    # print(data['Country'].astype(dtype='category', copy=True).cat.codes) # encode categories to numeric labels
 
     # find correlation matrix
     # thresh = 0.85
